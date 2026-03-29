@@ -446,16 +446,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ==================== FUNÇÃO: VALIDAR E ENVIAR FORMULÁRIO ====================
 function inicializarFormulario() {
-    emailjs.init({ publicKey: '81C9ngOw-NPJjUtfn' });
-
     const form = document.getElementById('contactForm');
 
-    // Validação de formulário
     form.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        if (validarFormulario()) {
-            enviarFormulario();
+        if (!validarFormulario()) {
+            e.preventDefault();
         }
     });
 }
@@ -504,43 +499,6 @@ function mostrarErro(campo, mensagem) {
     }
 }
 
-function enviarFormulario() {
-    const form = document.getElementById('contactForm');
-    const submitBtn = form.querySelector('.submit-btn');
-
-    // Desabilitar botão durante envio
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Enviando...';
-
-    const templateParams = {
-        nome: document.getElementById('nome').value,
-        email: document.getElementById('email').value,
-        mensagem: document.getElementById('mensagem').value
-    };
-
-    emailjs.send('service_iwly6pb', 'template_z6nozqt', templateParams)
-        .then(() => {
-            // Mostrar mensagem de sucesso
-            const msgSucesso = document.getElementById('msgSucesso');
-            msgSucesso.style.display = 'block';
-
-            // Limpar formulário
-            form.reset();
-
-            // Ocultar mensagem após 5 segundos
-            setTimeout(() => {
-                msgSucesso.style.display = 'none';
-            }, 5000);
-        })
-        .catch((error) => {
-            alert('Erro ao enviar mensagem. Tente novamente.');
-            console.error('EmailJS erro:', error);
-        })
-        .finally(() => {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Enviar Mensagem';
-        });
-}
 
 // ==================== FUNÇÃO: MENU MOBILE ====================
 function inicializarMenu() {
