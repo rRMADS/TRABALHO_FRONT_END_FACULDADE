@@ -50,7 +50,6 @@
                 <li><a href="#carros">Carros</a></li>
                 <li><a href="#comparador">Comparador</a></li>
                 <li><a href="#favoritos">Favoritos</a></li>
-                <li><a href="#contato">Contato</a></li>
             </ul>
         </div>
     </nav>
@@ -119,39 +118,6 @@
         <div style="text-align: center;">
             <button class="limpar-favoritos" id="limparFavoritos" style="display: none;">Limpar Favoritos</button>
         </div>
-    </section>
-
-    <!-- Seção de Contato -->
-    <section id="contato" class="contato-section">
-        <div class="section-header">
-            <h2>Entre em Contato</h2>
-            <p>Tire suas dúvidas conosco</p>
-        </div>
-
-        <form class="contact-form" id="contactForm" novalidate>
-            <div class="form-group">
-                <label for="nome">Nome Completo</label>
-                <input type="text" id="nome" name="nome" required aria-label="Seu nome">
-                <span class="error-msg" id="erroNome"></span>
-            </div>
-
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required aria-label="Seu email">
-                <span class="error-msg" id="erroEmail"></span>
-            </div>
-
-            <div class="form-group">
-                <label for="mensagem">Mensagem</label>
-                <textarea id="mensagem" name="mensagem" rows="5" required aria-label="Sua mensagem"></textarea>
-                <span class="error-msg" id="erroMensagem"></span>
-            </div>
-
-            <button type="submit" class="submit-btn">Enviar Mensagem</button>
-            <div class="success-msg" id="msgSucesso" style="display: none;">
-                ✓ Mensagem enviada com sucesso! Em breve retornaremos seu contato.
-            </div>
-        </form>
     </section>
 
     <!-- Modal de Detalhes do Carro -->
