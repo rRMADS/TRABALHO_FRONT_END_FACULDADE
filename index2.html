@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuxeDrive - Grid 2 Colunas</title>
+    <link rel="stylesheet" href="styles.css?v=3.0">
+    <style>
+        /* FORÇA ABSOLUTA DO GRID */
+        .cars-grid {
+            display: grid !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 2rem !important;
+            max-width: 1200px !important;
+            margin: 0 auto !important;
+        }
+
+        @media (max-width: 768px) {
+            .cars-grid {
+                display: grid !important;
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 1.5rem !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .cars-grid {
+                display: grid !important;
+                grid-template-columns: 1fr !important;
+                gap: 1.5rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navegação -->
+    <nav class="navbar" role="navigation" aria-label="Navegação principal">
+        <div class="navbar-container">
+            <div class="logo">
+                <span class="logo-text">LuxeDrive</span>
+            </div>
+            
+            <button class="menu-toggle" id="menuToggle" aria-label="Menu de navegação" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#carros">Carros</a></li>
+                <li><a href="#comparador">Comparador</a></li>
+                <li><a href="#favoritos">Favoritos</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">LuxeDrive</h1>
+            <p class="hero-subtitle">Descubra os carros de luxo mais exclusivos do mundo</p>
+            <a href="#carros" class="cta-button">Explore a Coleção</a>
+        </div>
+    </section>
+
+    <!-- Seção de Carros -->
+    <section id="carros" class="cars-section">
+        <div class="section-header">
+            <h2>Nossa Coleção</h2>
+            <p>Os carros mais icônicos e desejados do momento</p>
+        </div>
+
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">Todos</button>
+            <button class="filter-btn" data-filter="sedan">Sedan</button>
+            <button class="filter-btn" data-filter="supercar">Supercar</button>
+            <button class="filter-btn" data-filter="suv">SUV</button>
+        </div>
+
+        <!-- Grid de Carros - GRID 2 COLUNAS -->
+        <div class="cars-grid" id="carsGrid">
+            <!-- Carros serão inseridos por JavaScript -->
+        </div>
+    </section>
+
+    <!-- Seção Comparador -->
+    <section id="comparador" class="comparador-section">
+        <div class="section-header">
+            <h2>Comparador de Carros</h2>
+            <p>Compare especificações e características lado a lado</p>
+        </div>
+
+        <div class="comparador-container">
+            <div class="comparador-selectors">
+                <div class="selector">
+                    <label for="carro1">Selecione o 1º carro:</label>
+                    <select id="carro1" aria-label="Primeiro carro para comparação">
+                    </select>
+                </div>
+                <div class="selector">
+                    <label for="carro2">Selecione o 2º carro:</label>
+                    <select id="carro2" aria-label="Segundo carro para comparação">
+                    </select>
+                </div>
+            </div>
+            <div class="comparador-tabela" id="comparadorTabela"></div>
+        </div>
+    </section>
+
+    <!-- Seção Favoritos -->
+    <section id="favoritos" class="favoritos-section">
+        <div class="section-header">
+            <h2>Meus Favoritos</h2>
+            <p>Carros que você marcou como favoritos</p>
+        </div>
+
+        <div class="cars-grid" id="favoritosContainer"></div>
+        <div style="text-align: center;">
+            <button class="limpar-favoritos" id="limparFavoritos" style="display: none;">Limpar Favoritos</button>
+        </div>
+    </section>
+
+    <!-- Seção de Contato -->
+    <section id="contato" class="contato-section">
+        <div class="section-header">
+            <h2>Entre em Contato</h2>
+            <p>Tire suas dúvidas conosco</p>
+        </div>
+
+        <form class="contact-form" id="contactForm" novalidate>
+            <div class="form-group">
+                <label for="nome">Nome Completo</label>
+                <input type="text" id="nome" name="nome" required aria-label="Seu nome">
+                <span class="error-msg" id="erroNome"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required aria-label="Seu email">
+                <span class="error-msg" id="erroEmail"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="mensagem">Mensagem</label>
+                <textarea id="mensagem" name="mensagem" rows="5" required aria-label="Sua mensagem"></textarea>
+                <span class="error-msg" id="erroMensagem"></span>
+            </div>
+
+            <button type="submit" class="submit-btn">Enviar Mensagem</button>
+            <div class="success-msg" id="msgSucesso" style="display: none;">
+                ✓ Mensagem enviada com sucesso! Em breve retornaremos seu contato.
+            </div>
+        </form>
+    </section>
+
+    <!-- Modal de Detalhes do Carro -->
+    <div id="detalhesModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalCarroNome">Carro</h2>
+                <button class="modal-close" onclick="fecharModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="modalCarroDescricao"></p>
+                <div class="modal-specs">
+                    <h3>Especificações Técnicas</h3>
+                    <div class="specs-grid" id="modalEspecificacoes"></div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-primary" onclick="adicionarAoFavoritoModal()">
+                    Adicionar aos Favoritos
+                </button>
+                <button class="modal-btn modal-btn-secondary" onclick="fecharModal()">
+                    Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>LuxeDrive</h3>
+                <p>Sua plataforma de informação sobre carros de luxo e alta performance.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Links Rápidos</h4>
+                <ul>
+                    <li><a href="#carros">Carros</a></li>
+                    <li><a href="#comparador">Comparador</a></li>
+                    <li><a href="#favoritos">Favoritos</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contato</h4>
+                <p>Email: info@luxedrive.com</p>
+                <p>Telefone: +55 41 99999-9999</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 LuxeDrive. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
