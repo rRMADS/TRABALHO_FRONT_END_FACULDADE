@@ -1,4 +1,4 @@
-// ==================== BASE DE DADOS DOS CARROS ====================
+// Array com todos os carros do site - cada objeto tem id, nome, tipo, imagem, specs e preco
 const carros = [
     {
         id: 1,
@@ -93,29 +93,34 @@ const carros = [
     }
 ];
 
-// ==================== ESTADO DA APLICAÇÃO ====================
+// Carrega favoritos do localStorage (se nao tiver nada, comeca com array vazio)
 let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+
+// Guarda qual filtro esta ativo no momento
 let filtroAtivo = 'all';
 
-// ==================== INICIALIZAÇÃO ====================
+// Quando a pagina termina de carregar, inicializa tudo
 document.addEventListener('DOMContentLoaded', () => {
-    inicializarCarros();
-    inicializarComparador();
-    inicializarFavoritos();
-    inicializarFormulario();
-    inicializarMenu();
+    inicializarCarros();      // monta os cards no grid
+    inicializarComparador();  // preenche os selects do comparador
+    inicializarFavoritos();   // mostra os favoritos salvos
+    inicializarFormulario();  // configura validacao do form
+    inicializarMenu();        // configura menu hamburger
 });
 
-// ==================== FUNÇÃO: INICIALIZAR CARROS ====================
+// Cria os cards de cada carro e coloca no grid
 function inicializarCarros() {
     const carsGrid = document.getElementById('carsGrid');
-    carsGrid.innerHTML = '';
+    carsGrid.innerHTML = ''; // limpa antes de renderizar
 
     carros.forEach(carro => {
-        const carCard = document.createElement('div');
+        // Usa <article> como tag semantica para cada card
+        const carCard = document.createElement('article');
         carCard.className = 'car-card';
-        carCard.setAttribute('data-tipo', carro.tipo);
-        carCard.setAttribute('data-id', carro.id);
+        carCard.setAttribute('data-tipo', carro.tipo);  // tipo usado pelo filtro
+        carCard.setAttribute('data-id', carro.id);       // id usado pelos favoritos
+
+        // Template literal com o HTML do card
         carCard.innerHTML = `
             <div class="car-image">${carro.imagem ? `<img src="${carro.imagem}" alt="${carro.nome}">` : `[${carro.nome}]`}</div>
             <div class="car-info">
@@ -143,7 +148,7 @@ function inicializarCarros() {
                     <button class="btn-small btn-info" onclick="mostrarDetalhes(${carro.id})">
                         Detalhes
                     </button>
-                    <button class="btn-small btn-favorite ${favoritos.includes(carro.id) ? 'favorited' : ''}" 
+                    <button class="btn-small btn-favorite ${favoritos.includes(carro.id) ? 'favorited' : ''}"
                             onclick="toggleFavorito(${carro.id})"
                             aria-label="Adicionar aos favoritos">
                         ${favoritos.includes(carro.id) ? 'FAVORITADO' : 'FAVORITAR'}
@@ -154,19 +159,21 @@ function inicializarCarros() {
         carsGrid.appendChild(carCard);
     });
 
+    // Depois de montar todos os cards, aplica o filtro ativo
     aplicarFiltro();
 }
 
-// ==================== FUNÇÃO: MOSTRAR DETALHES DO CARRO ====================
+// Abre o modal com as informacoes detalhadas do carro
 function mostrarDetalhes(id) {
+    // Busca o carro pelo id no array
     const carro = carros.find(c => c.id === id);
     if (!carro) return;
 
-    // Preencher modal com informações
+    // Preenche nome e descricao no modal
     document.getElementById('modalCarroNome').textContent = carro.nome;
     document.getElementById('modalCarroDescricao').textContent = carro.descricao;
 
-    // Preencher especificações
+    // Gera o HTML das specs usando Object.entries para percorrer o objeto
     const especificacoesHTML = Object.entries(carro.especificacoes)
         .map(([chave, valor]) => `
             <div class="spec-item">
@@ -178,33 +185,32 @@ function mostrarDetalhes(id) {
 
     document.getElementById('modalEspecificacoes').innerHTML = especificacoesHTML;
 
-    // Armazenar ID do carro atual no modal para usar na ação
+    // Salva o id do carro no modal para o botao de favoritar saber qual carro eh
     document.getElementById('detalhesModal').setAttribute('data-carro-id', id);
 
-    // Mostrar modal com animação
+    // Mostra o modal e trava o scroll da pagina
     const modal = document.getElementById('detalhesModal');
     modal.classList.add('active');
-    document.body.style.overflow = 'hidden'; // Bloquear scroll do fundo
+    document.body.style.overflow = 'hidden';
 }
 
-// ==================== FUNÇÃO: FECHAR MODAL ====================
+// Fecha o modal e libera o scroll
 function fecharModal() {
     const modal = document.getElementById('detalhesModal');
     modal.classList.remove('active');
-    document.body.style.overflow = 'auto'; // Restaurar scroll
+    document.body.style.overflow = 'auto';
 }
 
-// ==================== FUNÇÃO: ADICIONAR AO FAVORITO PELO MODAL ====================
+// Favorita/desfavorita o carro que esta aberto no modal
 function adicionarAoFavoritoModal() {
+    // Pega o id do carro que ta no modal
     const carroId = parseInt(document.getElementById('detalhesModal').getAttribute('data-carro-id'));
     toggleFavorito(carroId);
-    
-    // Mensagem de feedback
-    const modal = document.getElementById('detalhesModal');
+
     const carro = carros.find(c => c.id === carroId);
     const isFavorito = favoritos.includes(carroId);
-    
-    // Criar notificação temporária
+
+    // Cria uma notificacao visual temporaria
     const notificacao = document.createElement('div');
     notificacao.style.cssText = `
         position: fixed;
@@ -221,15 +227,15 @@ function adicionarAoFavoritoModal() {
     `;
     notificacao.textContent = isFavorito ? `${carro.nome} adicionado aos favoritos!` : `${carro.nome} removido dos favoritos!`;
     document.body.appendChild(notificacao);
-    
-    // Remover notificação após 3 segundos
+
+    // Remove a notificacao depois de 3 segundos
     setTimeout(() => {
         notificacao.style.animation = 'slideInDown 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse';
         setTimeout(() => notificacao.remove(), 600);
     }, 3000);
 }
 
-// ==================== FECHAR MODAL CLICANDO FORA ====================
+// Fecha o modal se clicar fora dele (na area escura)
 window.addEventListener('click', (event) => {
     const modal = document.getElementById('detalhesModal');
     if (event.target === modal) {
@@ -237,7 +243,7 @@ window.addEventListener('click', (event) => {
     }
 });
 
-// ==================== FECHAR MODAL COM TECLA ESC ====================
+// Fecha o modal com a tecla ESC
 window.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
         const modal = document.getElementById('detalhesModal');
@@ -247,18 +253,19 @@ window.addEventListener('keydown', (event) => {
     }
 });
 
-// ==================== FUNÇÃO: TOGGLE FAVORITO ====================
+// Adiciona ou remove um carro dos favoritos
 function toggleFavorito(id) {
     const index = favoritos.indexOf(id);
     if (index > -1) {
-        favoritos.splice(index, 1);
+        favoritos.splice(index, 1); // ja esta nos favoritos, entao remove
     } else {
-        favoritos.push(id);
+        favoritos.push(id); // nao esta, entao adiciona
     }
 
+    // Salva no localStorage para persistir mesmo fechando o navegador
     localStorage.setItem('favoritos', JSON.stringify(favoritos));
-    
-    // Atualizar botões
+
+    // Atualiza o texto e a classe dos botoes de favorito nos cards
     document.querySelectorAll('.btn-favorite').forEach(btn => {
         const cardId = parseInt(btn.closest('.car-card').getAttribute('data-id'));
         if (cardId === id) {
@@ -267,11 +274,11 @@ function toggleFavorito(id) {
         }
     });
 
-    // Atualizar favoritos
+    // Atualiza a secao de favoritos
     inicializarFavoritos();
 }
 
-// ==================== FUNÇÃO: FILTRAR CARROS ====================
+// Muda o filtro ativo e destaca o botao selecionado
 function filtrarCarros(tipo) {
     filtroAtivo = tipo;
     const filterBtns = document.querySelectorAll('.filter-btn');
@@ -284,19 +291,20 @@ function filtrarCarros(tipo) {
     aplicarFiltro();
 }
 
+// Mostra ou esconde os cards conforme o filtro
 function aplicarFiltro() {
     const cards = document.querySelectorAll('.car-card');
     cards.forEach(card => {
         const tipo = card.getAttribute('data-tipo');
         if (filtroAtivo === 'all' || tipo === filtroAtivo) {
-            card.classList.remove('hidden');
+            card.classList.remove('hidden'); // mostra
         } else {
-            card.classList.add('hidden');
+            card.classList.add('hidden');    // esconde
         }
     });
 }
 
-// Adicionar event listeners aos filtros
+// Registra o evento de clique nos botoes de filtro
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -305,12 +313,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// ==================== FUNÇÃO: INICIALIZAR COMPARADOR ====================
+// Preenche os selects do comparador com os nomes dos carros
 function inicializarComparador() {
     const select1 = document.getElementById('carro1');
     const select2 = document.getElementById('carro2');
 
-    // Preencher selects
+    // Cria uma option para cada carro nos dois selects
     carros.forEach(carro => {
         const option1 = document.createElement('option');
         option1.value = carro.id;
@@ -323,15 +331,17 @@ function inicializarComparador() {
         select2.appendChild(option2);
     });
 
-    // Event listeners
+    // Atualiza a tabela sempre que mudar a selecao
     select1.addEventListener('change', atualizarComparador);
     select2.addEventListener('change', atualizarComparador);
 }
 
+// Monta a tabela comparando as specs dos dois carros escolhidos
 function atualizarComparador() {
     const id1 = document.getElementById('carro1').value;
     const id2 = document.getElementById('carro2').value;
 
+    // Se nenhum carro foi selecionado, limpa a tabela
     if (!id1 || !id2) {
         document.getElementById('comparadorTabela').innerHTML = '';
         return;
@@ -339,14 +349,15 @@ function atualizarComparador() {
 
     const carro1 = carros.find(c => c.id == id1);
     const carro2 = carros.find(c => c.id == id2);
-
     if (!carro1 || !carro2) return;
 
+    // Set junta as chaves dos dois carros sem repetir
     const todasAsEspecificacoes = new Set([
         ...Object.keys(carro1.especificacoes),
         ...Object.keys(carro2.especificacoes)
     ]);
 
+    // Monta o HTML da tabela
     let tabela = `
     <table class="tabela-comparacao">
         <thead>
@@ -359,6 +370,7 @@ function atualizarComparador() {
         <tbody>
     `;
 
+    // Uma linha para cada spec, mostra '-' se o carro nao tiver aquela spec
     todasAsEspecificacoes.forEach(spec => {
         const valor1 = carro1.especificacoes[spec] || '-';
         const valor2 = carro2.especificacoes[spec] || '-';
@@ -375,11 +387,12 @@ function atualizarComparador() {
     document.getElementById('comparadorTabela').innerHTML = tabela;
 }
 
-// ==================== FUNÇÃO: INICIALIZAR FAVORITOS ====================
+// Renderiza os carros favoritados na secao de favoritos
 function inicializarFavoritos() {
     const container = document.getElementById('favoritosContainer');
     const btnLimpar = document.getElementById('limparFavoritos');
 
+    // Se nao tem favoritos, mostra mensagem
     if (favoritos.length === 0) {
         container.innerHTML = `
             <div class="favoritos-empty">
@@ -394,10 +407,11 @@ function inicializarFavoritos() {
     container.innerHTML = '';
     btnLimpar.style.display = 'inline-block';
 
+    // Cria um card para cada carro favoritado
     favoritos.forEach(id => {
         const carro = carros.find(c => c.id === id);
         if (carro) {
-            const card = document.createElement('div');
+            const card = document.createElement('article');
             card.className = 'car-card';
             card.innerHTML = `
                 <div class="car-image">${carro.imagem ? `<img src="${carro.imagem}" alt="${carro.nome}">` : `[${carro.nome}]`}</div>
@@ -429,7 +443,7 @@ function inicializarFavoritos() {
     });
 }
 
-// Limpar todos favoritos
+// Botao de limpar todos os favoritos - pede confirmacao antes
 document.addEventListener('DOMContentLoaded', () => {
     const btnLimpar = document.getElementById('limparFavoritos');
     if (btnLimpar) {
@@ -437,49 +451,64 @@ document.addEventListener('DOMContentLoaded', () => {
             if (confirm('Deseja remover todos os carros dos favoritos?')) {
                 favoritos = [];
                 localStorage.setItem('favoritos', JSON.stringify(favoritos));
-                inicializarFavoritos();
-                inicializarCarros();
+                inicializarFavoritos(); // atualiza a secao de favoritos
+                inicializarCarros();    // atualiza os botoes nos cards
             }
         });
     }
 });
 
-// ==================== FUNÇÃO: VALIDAR E ENVIAR FORMULÁRIO ====================
+// Configura a validacao do formulario de contato
 function inicializarFormulario() {
     const form = document.getElementById('contactForm');
+    if (!form) return;
 
+    // Intercepta o submit para validar antes de enviar
     form.addEventListener('submit', (e) => {
-        if (!validarFormulario()) {
-            e.preventDefault();
+        e.preventDefault(); // impede o envio padrao do form
+        if (validarFormulario()) {
+            // Se passou na validacao, mostra mensagem de sucesso
+            const successMsg = document.createElement('div');
+            successMsg.className = 'success-msg';
+            successMsg.textContent = 'Mensagem enviada com sucesso! Entraremos em contato em breve.';
+            form.appendChild(successMsg);
+
+            form.reset(); // limpa os campos
+
+            // Remove a mensagem de sucesso apos 4 segundos
+            setTimeout(() => {
+                successMsg.remove();
+            }, 4000);
         }
     });
 }
 
+// Valida os campos do formulario e retorna true/false
 function validarFormulario() {
     let isValido = true;
     const nome = document.getElementById('nome');
     const email = document.getElementById('email');
     const mensagem = document.getElementById('mensagem');
 
-    // Limpar erros anteriores
+    // Limpa erros anteriores
     document.querySelectorAll('.form-group').forEach(group => {
         group.classList.remove('error');
     });
 
-    // Validar Nome
+    // Nome precisa ter no minimo 3 caracteres
     if (nome.value.trim().length < 3) {
         mostrarErro('nome', 'Nome deve ter pelo menos 3 caracteres');
         isValido = false;
     }
 
-    // Validar Email
+    // Regex para validar formato de email
     const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!regexEmail.test(email.value)) {
         mostrarErro('email', 'Email inválido');
         isValido = false;
     }
 
-    // Validar Mensagem
+    // Mensagem precisa ter no minimo 10 caracteres
     if (mensagem.value.trim().length < 10) {
         mostrarErro('mensagem', 'Mensagem deve ter pelo menos 10 caracteres');
         isValido = false;
@@ -488,30 +517,33 @@ function validarFormulario() {
     return isValido;
 }
 
+// Mostra a mensagem de erro embaixo do campo invalido
 function mostrarErro(campo, mensagem) {
     const input = document.getElementById(campo);
-    const grupo = input.closest('.form-group');
+    const grupo = input.closest('.form-group'); // pega o div pai do input
+    // Monta o id do span de erro (ex: erroNome, erroEmail, erroMensagem)
     const msgErro = document.getElementById(`erro${campo.charAt(0).toUpperCase() + campo.slice(1)}`);
-    
-    grupo.classList.add('error');
+
+    grupo.classList.add('error'); // ativa o estilo de erro no CSS
     if (msgErro) {
         msgErro.textContent = mensagem;
     }
 }
 
-
-// ==================== FUNÇÃO: MENU MOBILE ====================
+// Configura o menu hamburger para mobile
 function inicializarMenu() {
     const menuToggle = document.getElementById('menuToggle');
     const navLinks = document.getElementById('navLinks');
 
     if (menuToggle) {
+        // Abre/fecha o menu ao clicar no hamburger
         menuToggle.addEventListener('click', () => {
             navLinks.classList.toggle('active');
+            // Atualiza aria-expanded para acessibilidade
             menuToggle.setAttribute('aria-expanded', navLinks.classList.contains('active'));
         });
 
-        // Fechar menu ao clicar em um link
+        // Fecha o menu ao clicar em qualquer link
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 navLinks.classList.remove('active');
@@ -521,20 +553,21 @@ function inicializarMenu() {
     }
 }
 
-// ==================== MELHORIAS: LAZY LOADING E PERFORMANCE ====================
+// IntersectionObserver - anima os cards quando aparecem na tela (lazy loading visual)
 if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.style.animation = 'slideIn 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                observer.unobserve(entry.target);
+                observer.unobserve(entry.target); // para de observar depois de animar
             }
         });
     }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -100px 0px'
+        threshold: 0.1,                  // dispara quando 10% do elemento esta visivel
+        rootMargin: '0px 0px -100px 0px' // margem para atrasar um pouco o disparo
     });
 
+    // Observa todos os cards ao carregar a pagina
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.car-card').forEach(card => {
             observer.observe(card);
@@ -542,9 +575,9 @@ if ('IntersectionObserver' in window) {
     });
 }
 
-// ==================== ACESSIBILIDADE: SUPORTE A TECLADO ====================
+// Navegacao por teclado para acessibilidade
 document.addEventListener('keydown', (e) => {
-    // ESC para fechar menu mobile
+    // ESC fecha o menu mobile
     if (e.key === 'Escape') {
         const navLinks = document.getElementById('navLinks');
         const menuToggle = document.getElementById('menuToggle');
@@ -554,17 +587,17 @@ document.addEventListener('keydown', (e) => {
         }
     }
 
-    // Navegação por teclado entre cards
+    // Setas navegam entre os cards visiveis
     if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
         const cards = document.querySelectorAll('.car-card:not(.hidden)');
         const focused = document.activeElement;
-        
+
         if (cards.length > 0) {
             const currentIndex = Array.from(cards).indexOf(focused);
             if (currentIndex !== -1) {
-                const nextIndex = e.key === 'ArrowRight' 
-                    ? (currentIndex + 1) % cards.length 
-                    : (currentIndex - 1 + cards.length) % cards.length;
+                const nextIndex = e.key === 'ArrowRight'
+                    ? (currentIndex + 1) % cards.length              // avanca (circular)
+                    : (currentIndex - 1 + cards.length) % cards.length; // recua (circular)
                 cards[nextIndex].focus();
             }
         }

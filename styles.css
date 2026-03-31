@@ -1,6 +1,7 @@
-/* ==================== IMPORTAR FONTE E VARIÁVEIS ==================== */
+/* Importa fonte Fjalla One do Google Fonts para usar nos titulos */
 @import url('https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap');
 
+/* Variaveis CSS - facilita reutilizar cores, fontes e transicoes no projeto todo */
 :root {
     --primary: #080808;
     --secondary: #eeb810;
@@ -9,10 +10,11 @@
     --dark: #0d0d0d;
     --text: #333;
     --border: #e0e0e0;
-    
+
     --font-display: 'Fjalla One', sans-serif;
     --font-body: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    
+
+    /* Transicoes com cubic-bezier para animacoes mais suaves */
     --transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     --transition-smooth: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     --transition-slow: all 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -20,38 +22,44 @@
     --shadow-hover: 0 20px 60px rgba(0, 0, 0, 0.15);
 }
 
+/* Reset - zera margens/paddings e usa border-box em tudo */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Scroll suave ao clicar nos links ancora (#carros, #comparador, etc) */
 html {
     scroll-behavior: smooth;
 }
 
+/* Config base do body */
 body {
     font-family: var(--font-body);
     color: var(--text);
     background: var(--light);
     line-height: 1.6;
-    overflow-x: hidden;
+    overflow-x: hidden; /* evita scroll horizontal indesejado */
 }
 
-/* ==================== NAVEGAÇÃO COM CONTRASTE ==================== */
+/* ========== NAVBAR ========== */
+
+/* Navbar fixa no topo - sempre visivel ao rolar a pagina */
 .navbar {
     position: fixed;
     top: 0;
     width: 100%;
     background: linear-gradient(90deg, #080808 0%, #1a1a1a 100%);
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px); /* efeito de desfoque atras da navbar */
     padding: 1rem 0;
-    z-index: 1000;
+    z-index: 1000; /* fica acima de todo conteudo */
     box-shadow: 0 8px 32px rgba(238, 184, 16, 0.1);
     border-bottom: 3px solid #eeb810;
     transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
+/* Flexbox para alinhar logo e links com espaco entre eles */
 .navbar-container {
     display: flex;
     justify-content: space-between;
@@ -61,6 +69,7 @@ body {
     padding: 0 2rem;
 }
 
+/* Logo dourado com sombra */
 .logo {
     display: flex;
     align-items: center;
@@ -84,6 +93,7 @@ body {
     letter-spacing: 3px;
 }
 
+/* Links de navegacao - dispostos em linha com flexbox */
 .nav-links {
     display: flex;
     list-style: none;
@@ -95,18 +105,19 @@ body {
     text-decoration: none;
     font-weight: 600;
     transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    position: relative;
+    position: relative; /* necessario para o pseudo-elemento ::after */
     text-transform: uppercase;
     font-size: 0.9rem;
     letter-spacing: 1px;
 }
 
+/* Linha dourada que aparece embaixo do link no hover (pseudo-elemento) */
 .nav-links a::after {
     content: '';
     position: absolute;
     bottom: -5px;
     left: 0;
-    width: 0;
+    width: 0; /* comeca invisivel */
     height: 3px;
     background: #eeb810;
     transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -117,10 +128,12 @@ body {
     color: #eeb810;
 }
 
+/* No hover, a linha expande para 100% */
 .nav-links a:hover::after {
     width: 100%;
 }
 
+/* Botao hamburger - escondido no desktop, aparece no mobile */
 .menu-toggle {
     display: none;
     flex-direction: column;
@@ -129,6 +142,7 @@ body {
     cursor: pointer;
 }
 
+/* As 3 barrinhas do hamburger */
 .menu-toggle span {
     width: 25px;
     height: 3px;
@@ -138,14 +152,17 @@ body {
     border-radius: 2px;
 }
 
-/* ==================== HERO SECTION COM ANIMAÇÕES FLUIDAS ==================== */
+/* ========== HERO SECTION ========== */
+
+/* Secao principal - ocupa a tela toda com imagem de fundo */
 .hero {
     margin-top: 0;
-    padding-top: 60px;
-    min-height: 100vh;
+    padding-top: 60px; /* compensa a navbar fixa */
+    min-height: 100vh; /* 100% da altura da tela */
     display: flex;
     align-items: center;
     justify-content: center;
+    /* linear-gradient cria o overlay escuro por cima da imagem */
     background: linear-gradient(rgba(8, 8, 8, 0.65), rgba(8, 8, 8, 0.75)), url('hero-bg.jpeg') center/cover no-repeat;
     color: var(--light);
     position: relative;
@@ -153,6 +170,7 @@ body {
     padding: 2rem;
 }
 
+/* Efeito de brilho dourado pulsante usando pseudo-elemento */
 .hero::before {
     content: '';
     position: absolute;
@@ -161,29 +179,32 @@ body {
     right: 0;
     bottom: 0;
     background: radial-gradient(circle at 20% 50%, rgba(238, 184, 16, 0.1) 0%, transparent 50%);
-    pointer-events: none;
+    pointer-events: none; /* nao interfere nos cliques */
     animation: pulse 4s ease-in-out infinite;
 }
 
+/* Padrao SVG decorativo no fundo (cruzes douradas bem sutis) */
 .hero-backdrop {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: 
+    background-image:
         url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23eeb810' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     opacity: 0.3;
     pointer-events: none;
 }
 
+/* Conteudo da hero centralizado */
 .hero-content {
     position: relative;
-    z-index: 2;
+    z-index: 2; /* fica acima dos efeitos decorativos */
     text-align: center;
     animation: fadeInUp 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
+/* Titulo principal */
 .hero-title {
     font-size: 3.5rem;
     font-family: var(--font-display);
@@ -195,6 +216,7 @@ body {
     animation: fadeInUp 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s both;
 }
 
+/* Subtitulo */
 .hero-subtitle {
     font-size: 1.3rem;
     color: rgba(245, 245, 245, 0.8);
@@ -203,6 +225,7 @@ body {
     animation: fadeInUp 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.4s both;
 }
 
+/* Botao CTA (Call to Action) - dourado, fica transparente no hover */
 .cta-button {
     display: inline-block;
     padding: 1rem 2.5rem;
@@ -226,13 +249,15 @@ body {
     box-shadow: 0 10px 25px rgba(238, 184, 16, 0.12);
 }
 
-/* ==================== SEÇÃO DE CARROS ==================== */
+/* ========== SECAO DE CARROS ========== */
+
 .cars-section {
     padding: 4rem 2rem;
     max-width: 1400px;
     margin: 0 auto;
 }
 
+/* Header reutilizado em todas as secoes */
 .section-header {
     text-align: center;
     margin-bottom: 3rem;
@@ -259,7 +284,9 @@ body {
     color: #666;
 }
 
-/* Filtros */
+/* ========== FILTROS ========== */
+
+/* Flex com wrap para quebrar linha em telas menores */
 .filters {
     display: flex;
     justify-content: center;
@@ -282,6 +309,7 @@ body {
     letter-spacing: 1px;
 }
 
+/* Estilo do filtro ativo e do hover */
 .filter-btn:hover,
 .filter-btn.active {
     background: #6b6b6b;
@@ -290,7 +318,9 @@ body {
     box-shadow: 0 6px 20px rgba(238, 184, 16, 0.1);
 }
 
-/* Grid de Carros */
+/* ========== GRID DE CARROS ========== */
+
+/* Grid de 2 colunas usando CSS Grid */
 .cars-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr) !important;
@@ -298,6 +328,8 @@ body {
     max-width: 1200px !important;
     margin: 0 auto !important;
 }
+
+/* ========== CARD DE CARRO ========== */
 
 .car-card {
     background: white;
@@ -310,15 +342,20 @@ body {
     border: 1px solid rgba(238, 184, 16, 0.1);
 }
 
+/* Efeito hover - card sobe e aumenta um pouco */
 .car-card:hover {
     transform: translateY(-18px) scale(1.02);
     box-shadow: 0 30px 70px rgba(238, 184, 16, 0.08);
 }
 
+/* Classe que o JS adiciona para esconder cards filtrados */
 .car-card.hidden {
     display: none;
 }
 
+/* ========== IMAGEM DO CARRO ========== */
+
+/* Container da imagem com altura fixa */
 .car-image {
     width: 100%;
     height: 300px;
@@ -331,6 +368,7 @@ body {
     overflow: hidden;
 }
 
+/* object-fit: cover faz a imagem preencher sem distorcer */
 .car-image img {
     width: 100%;
     height: 100%;
@@ -340,10 +378,12 @@ body {
     image-rendering: auto;
 }
 
+/* Zoom suave na imagem no hover */
 .car-card:hover .car-image img {
     transform: scale(1.08);
 }
 
+/* Efeito de brilho que passa pela imagem no hover */
 .car-image::after {
     content: '';
     position: absolute;
@@ -359,6 +399,8 @@ body {
     left: 100%;
 }
 
+/* ========== INFO DO CARRO ========== */
+
 .car-info {
     padding: 2rem;
 }
@@ -372,10 +414,12 @@ body {
     transition: var(--transition);
 }
 
+/* Nome fica dourado no hover do card */
 .car-card:hover .car-name {
     color: var(--secondary);
 }
 
+/* Categoria do carro (sedan, supercar, suv) */
 .car-tipo {
     color: var(--secondary);
     font-size: 0.9rem;
@@ -384,6 +428,7 @@ body {
     margin-bottom: 1rem;
 }
 
+/* Grid 2 colunas para as specs */
 .car-specs {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -392,6 +437,7 @@ body {
     font-size: 0.9rem;
 }
 
+/* Borda dourada na esquerda de cada spec */
 .spec {
     border-left: 3px solid var(--secondary);
     padding-left: 0.5rem;
@@ -419,12 +465,15 @@ body {
     color: var(--secondary);
 }
 
+/* ========== BOTOES DO CARD ========== */
+
 .car-actions {
     display: flex;
     gap: 1rem;
     margin-top: 1rem;
 }
 
+/* flex: 1 faz os botoes ocuparem espaco igual */
 .btn-small {
     flex: 1;
     padding: 0.7rem;
@@ -438,6 +487,7 @@ body {
     letter-spacing: 0.5px;
 }
 
+/* Botao "Detalhes" - dourado */
 .btn-info {
     background: var(--secondary);
     color: var(--primary);
@@ -449,12 +499,14 @@ body {
     box-shadow: 0 6px 20px rgba(238, 184, 16, 0.12);
 }
 
+/* Botao "Favoritar" - cinza com borda */
 .btn-favorite {
     background: #f0f0f0;
     color: #6b6b6b;
     border: 2px solid #6b6b6b;
 }
 
+/* Muda visual quando favoritado ou no hover */
 .btn-favorite:hover,
 .btn-favorite.favorited {
     background: #6b6b6b;
@@ -463,12 +515,14 @@ body {
     box-shadow: 0 6px 20px rgba(238, 184, 16, 0.1);
 }
 
+/* Pseudo-elemento que adiciona texto antes do conteudo */
 .btn-favorite.favorited::before {
     content: 'FAVORITO ';
     font-size: 0.7rem;
 }
 
-/* ==================== COMPARADOR ==================== */
+/* ========== COMPARADOR ========== */
+
 .comparador-section {
     padding: 4rem 2rem;
     background: white;
@@ -483,6 +537,7 @@ body {
     animation: fadeIn 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
+/* Dois selects lado a lado */
 .comparador-selectors {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -510,6 +565,7 @@ body {
     cursor: pointer;
 }
 
+/* Focus com borda dourada e sombra */
 .selector select:focus {
     outline: none;
     border-color: var(--secondary);
@@ -520,6 +576,7 @@ body {
     box-shadow: 0 4px 15px rgba(238, 184, 16, 0.05);
 }
 
+/* overflow-x: auto para tabela nao estourar em telas pequenas */
 .comparador-tabela {
     overflow-x: auto;
     background: white;
@@ -527,9 +584,10 @@ body {
     animation: fadeIn 1s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+/* Tabela de comparacao */
 .tabela-comparacao {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: collapse; /* junta as bordas das celulas */
 }
 
 .tabela-comparacao th,
@@ -540,6 +598,7 @@ body {
     transition: var(--transition);
 }
 
+/* Cabecalho da tabela - fundo preto com texto dourado */
 .tabela-comparacao th {
     background: var(--primary);
     color: var(--secondary);
@@ -548,6 +607,7 @@ body {
     font-size: 0.9rem;
 }
 
+/* Hover na linha da tabela */
 .tabela-comparacao tr:hover {
     background: rgba(238, 184, 16, 0.08);
 }
@@ -556,19 +616,22 @@ body {
     color: var(--primary);
 }
 
+/* Primeira coluna (nome da spec) com destaque */
 .tabela-comparacao td:first-child {
     font-weight: 600;
     color: var(--primary);
     background: var(--light);
 }
 
-/* ==================== FAVORITOS ==================== */
+/* ========== FAVORITOS ========== */
+
 .favoritos-section {
     padding: 4rem 2rem;
     max-width: 1400px;
     margin: 0 auto;
 }
 
+/* Grid responsivo com auto-fit */
 .favoritos-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -576,8 +639,9 @@ body {
     min-height: 300px;
 }
 
+/* Mensagem quando nao tem favoritos */
 .favoritos-empty {
-    grid-column: 1 / -1;
+    grid-column: 1 / -1; /* ocupa todas as colunas do grid */
     text-align: center;
     padding: 4rem 2rem;
     color: #999;
@@ -589,6 +653,7 @@ body {
     margin-bottom: 1rem;
 }
 
+/* Botao vermelho de limpar favoritos */
 .limpar-favoritos {
     padding: 0.8rem 2rem;
     background: #e74c3c;
@@ -607,7 +672,8 @@ body {
     box-shadow: 0 8px 20px rgba(231, 76, 60, 0.15);
 }
 
-/* ==================== FORMULÁRIO DE CONTATO ==================== */
+/* ========== FORMULARIO DE CONTATO ========== */
+
 .contato-section {
     padding: 4rem 2rem;
     background: transparent;
@@ -619,6 +685,7 @@ body {
     color: #eeb810;
 }
 
+/* Form com borda dourada na esquerda */
 .contact-form {
     max-width: 500px;
     margin: 2rem auto;
@@ -629,12 +696,14 @@ body {
     border-left: 4px solid #eeb810;
 }
 
+/* Cada grupo de campo (label + input) em coluna */
 .form-group {
     margin-bottom: 1.2rem;
     display: flex;
     flex-direction: column;
 }
 
+/* Labels dourados */
 .form-group label {
     margin-bottom: 0.5rem;
     font-weight: 600;
@@ -644,6 +713,7 @@ body {
     letter-spacing: 0.5px;
 }
 
+/* Estilo dos inputs, textareas e selects */
 .form-group input,
 .form-group textarea,
 .form-group select {
@@ -657,6 +727,7 @@ body {
     color: #333;
 }
 
+/* Estilo do focus - borda clara e sombra dourada */
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group select:focus {
@@ -674,11 +745,13 @@ body {
     box-shadow: 0 4px 12px rgba(238, 184, 16, 0.12);
 }
 
+/* Textarea so redimensiona verticalmente */
 .form-group textarea {
     resize: vertical;
     font-family: var(--font-body);
 }
 
+/* Mensagem de erro - escondida por padrao, aparece com a classe .error */
 .error-msg {
     color: #e74c3c;
     font-size: 0.85rem;
@@ -687,6 +760,7 @@ body {
     animation: slideInDown 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+/* Quando o form-group tem classe error, borda fica vermelha */
 .form-group.error input,
 .form-group.error textarea,
 .form-group.error select {
@@ -694,10 +768,12 @@ body {
     background: rgba(231, 76, 60, 0.05);
 }
 
+/* E a mensagem de erro aparece */
 .form-group.error .error-msg {
     display: block;
 }
 
+/* Botao de enviar */
 .submit-btn {
     width: 100%;
     padding: 1rem;
@@ -726,6 +802,7 @@ body {
     transform: none;
 }
 
+/* Mensagem verde de sucesso ao enviar o form */
 .success-msg {
     background: #27ae60;
     color: white;
@@ -736,7 +813,8 @@ body {
     animation: slideInDown 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* ==================== FOOTER ==================== */
+/* ========== FOOTER ========== */
+
 .footer {
     background: var(--primary);
     color: var(--light);
@@ -744,6 +822,7 @@ body {
     margin-top: 4rem;
 }
 
+/* Grid responsivo com auto-fit para colunas do footer */
 .footer-content {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -775,6 +854,7 @@ body {
     transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+/* Link do footer fica dourado e desloca pra direita no hover */
 .footer-section a:hover {
     color: var(--secondary);
     transform: translateX(5px);
@@ -787,7 +867,9 @@ body {
     color: rgba(245, 245, 245, 0.6);
 }
 
-/* ==================== ANIMAÇÕES FLUIDAS ==================== */
+/* ========== ANIMACOES (KEYFRAMES) ========== */
+
+/* Entrada de baixo pra cima */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -799,6 +881,7 @@ body {
     }
 }
 
+/* Entrada de cima pra baixo */
 @keyframes fadeInDown {
     from {
         opacity: 0;
@@ -810,15 +893,13 @@ body {
     }
 }
 
+/* Fade simples */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
+/* Entrada da esquerda pra direita */
 @keyframes slideIn {
     from {
         opacity: 0;
@@ -830,6 +911,7 @@ body {
     }
 }
 
+/* Slide de cima - usado nas notificacoes */
 @keyframes slideInDown {
     from {
         opacity: 0;
@@ -841,17 +923,17 @@ body {
     }
 }
 
+/* Efeito pulsante da hero */
 @keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.8;
-    }
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
 }
 
-/* ==================== RESPONSIVIDADE ==================== */
+/* ========== MEDIA QUERIES - RESPONSIVIDADE ========== */
+
+/* Tablet (ate 768px) */
 @media (max-width: 768px) {
+    /* Menu vira dropdown vertical no mobile */
     .nav-links {
         display: none;
         position: absolute;
@@ -864,6 +946,7 @@ body {
         gap: 0;
     }
 
+    /* Classe active mostra o menu */
     .nav-links.active {
         display: flex;
         animation: slideInDown 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -875,6 +958,7 @@ body {
         border-bottom: 1px solid rgba(238, 184, 16, 0.2);
     }
 
+    /* Mostra o botao hamburger */
     .menu-toggle {
         display: flex;
     }
@@ -901,6 +985,7 @@ body {
         gap: 1.5rem !important;
     }
 
+    /* Selects do comparador ficam empilhados */
     .comparador-selectors {
         grid-template-columns: 1fr;
     }
@@ -925,6 +1010,7 @@ body {
     }
 }
 
+/* Celular (ate 480px) */
 @media (max-width: 480px) {
     .logo {
         font-size: 1.3rem;
@@ -939,6 +1025,7 @@ body {
         font-size: 1.5rem;
     }
 
+    /* Muda pra 1 coluna no celular */
     .cars-grid {
         grid-template-columns: 1fr !important;
         gap: 1.5rem !important;
@@ -957,6 +1044,7 @@ body {
         grid-template-columns: 1fr;
     }
 
+    /* Botoes empilhados no celular */
     .car-actions {
         flex-direction: column;
     }
@@ -969,7 +1057,9 @@ body {
     }
 }
 
-/* ==================== ACESSIBILIDADE ==================== */
+/* ========== ACESSIBILIDADE ========== */
+
+/* Desativa animacoes para quem prefere menos movimento */
 @media (prefers-reduced-motion: reduce) {
     * {
         animation: none !important;
@@ -977,6 +1067,7 @@ body {
     }
 }
 
+/* Adapta cores se o usuario usa tema escuro no sistema */
 @media (prefers-color-scheme: dark) {
     body {
         background: #1a1a1a;
@@ -989,7 +1080,7 @@ body {
     }
 }
 
-/* Focus visível para teclado */
+/* Outline dourado visivel para navegacao por teclado (focus-visible) */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
@@ -999,7 +1090,9 @@ textarea:focus-visible {
     outline-offset: 2px;
 }
 
-/* ==================== MODAL DE DETALHES ==================== */
+/* ========== MODAL DE DETALHES ========== */
+
+/* Overlay escuro que cobre a tela toda */
 .modal {
     display: none;
     position: fixed;
@@ -1013,12 +1106,14 @@ textarea:focus-visible {
     backdrop-filter: blur(5px);
 }
 
+/* Quando ativo, centraliza o conteudo com flexbox */
 .modal.active {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+/* Caixa do modal com borda dourada */
 .modal-content {
     background-color: white;
     padding: 2.5rem;
@@ -1026,12 +1121,13 @@ textarea:focus-visible {
     width: 90%;
     max-width: 600px;
     max-height: 80vh;
-    overflow-y: auto;
+    overflow-y: auto; /* scroll interno se o conteudo for grande */
     animation: slideInDown 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     box-shadow: 0 20px 60px rgba(238, 184, 16, 0.2);
     border: 2px solid #eeb810;
 }
 
+/* Header do modal */
 .modal-header {
     display: flex;
     justify-content: space-between;
@@ -1050,6 +1146,7 @@ textarea:focus-visible {
     letter-spacing: 1px;
 }
 
+/* Botao X de fechar - gira 90 graus no hover */
 .modal-close {
     background: none;
     border: none;
@@ -1080,6 +1177,7 @@ textarea:focus-visible {
     text-align: justify;
 }
 
+/* Box de specs com borda dourada */
 .modal-specs {
     background: #f5f5f5;
     padding: 1.5rem;
@@ -1097,6 +1195,7 @@ textarea:focus-visible {
     font-family: var(--font-display);
 }
 
+/* Grid 2 colunas para as specs do modal */
 .specs-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1125,6 +1224,7 @@ textarea:focus-visible {
     font-weight: 600;
 }
 
+/* Botoes do modal */
 .modal-actions {
     display: flex;
     gap: 1rem;
@@ -1167,7 +1267,7 @@ textarea:focus-visible {
     transform: translateY(-2px);
 }
 
-/* Scroll suave dentro do modal */
+/* Scrollbar personalizada no modal (so funciona no Chrome/Edge) */
 .modal-content::-webkit-scrollbar {
     width: 8px;
 }
@@ -1187,7 +1287,9 @@ textarea:focus-visible {
     background: #f5d547;
 }
 
-/* Responsividade do modal */
+/* ========== RESPONSIVIDADE DO MODAL ========== */
+
+/* Tablet */
 @media (max-width: 768px) {
     .modal-content {
         width: 95%;
@@ -1199,6 +1301,7 @@ textarea:focus-visible {
         font-size: 1.5rem;
     }
 
+    /* Specs em 1 coluna */
     .specs-grid {
         grid-template-columns: 1fr;
     }
@@ -1212,6 +1315,7 @@ textarea:focus-visible {
     }
 }
 
+/* Celular */
 @media (max-width: 480px) {
     .modal-content {
         width: 98%;
@@ -1237,15 +1341,17 @@ textarea:focus-visible {
     }
 }
 
-/* ==================== BOTÃO WHATSAPP FLUTUANTE ==================== */
+/* ========== BOTAO WHATSAPP FLUTUANTE ========== */
+
+/* Botao circular fixo no canto inferior direito */
 .whatsapp-float {
     position: fixed;
     bottom: 2rem;
     right: 2rem;
     width: 60px;
     height: 60px;
-    background: #25d366;
-    border-radius: 50%;
+    background: #25d366; /* verde oficial do WhatsApp */
+    border-radius: 50%;  /* deixa circular */
     display: flex;
     align-items: center;
     justify-content: center;
