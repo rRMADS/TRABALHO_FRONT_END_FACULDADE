@@ -58,9 +58,3 @@ O site se adapta a diferentes tamanhos de tela:
 - Contraste adequado entre texto e fundo.
 - Suporte a `prefers-reduced-motion` para usuarios que preferem menos animacoes.
 - Outline visivel para navegacao por teclado (`focus-visible`).
-
-## Como Executar
-
-1. Clone o repositorio ou baixe os arquivos.
-2. Abra o arquivo `index.html` em um navegador web.
-3. Nenhuma instalacao ou servidor necessario — o site funciona de forma estatica.
