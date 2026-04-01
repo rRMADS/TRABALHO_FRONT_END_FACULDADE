@@ -23,9 +23,9 @@ Catalogo de carros de luxo, com foco na apresentacao visual dos veiculos, compar
 
 ## Tecnologias Utilizadas
 
-- **HTML5**: Estrutura semantica com tags como `<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, `<footer>`.
-- **CSS3**: Estilizacao completa com variaveis CSS, Grid Layout, Flexbox, Media Queries, pseudo-classes, pseudo-elementos e animacoes com keyframes.
-- **JavaScript (ES6+)**: Manipulacao do DOM, eventos, localStorage, IntersectionObserver, validacao de formularios — sem uso de frameworks.
+- **HTML**: Estrutura semantica com tags como `<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, `<footer>`.
+- **CSS**: Estilizacao completa com variaveis CSS, Grid Layout, Flexbox, Media Queries, pseudo-classes, pseudo-elementos e animacoes com keyframes.
+- **JavaScript**: Manipulacao do DOM, eventos, localStorage, IntersectionObserver, validacao de formularios — sem uso de frameworks.
 
 ## Estrutura de Arquivos
 
