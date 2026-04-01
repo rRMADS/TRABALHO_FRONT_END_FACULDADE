@@ -46,9 +46,9 @@ LuxeDrive/
 
 O site se adapta a diferentes tamanhos de tela:
 
-- **Desktop** (acima de 768px): Grid de 2 colunas, navbar horizontal.
-- **Tablet** (ate 768px): Grid de 2 colunas, menu hamburguer, comparador em coluna unica.
-- **Mobile** (ate 480px): Grid de 1 coluna, botoes empilhados, fontes reduzidas.
+- **Desktop** - Grid de 2 colunas, navbar horizontal.
+- **Tablet** - Grid de 2 colunas, menu hamburguer, comparador em coluna unica.
+- **Mobile** - Grid de 1 coluna, botoes empilhados, fontes reduzidas.
 
 ## Acessibilidade
 
