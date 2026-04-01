@@ -1,25 +1,16 @@
 /* Importa fonte Fjalla One do Google Fonts para usar nos titulos */
 @import url('https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap');
 
-/* Variaveis CSS - facilita reutilizar cores, fontes e transicoes no projeto todo */
+/* Variaveis CSS - cores, fontes e transicao padrao do projeto */
 :root {
     --primary: #080808;
     --secondary: #eeb810;
-    --accent: #eeb810;
-    --light: #f5f5f5;
-    --dark: #0d0d0d;
+    --light: #f5f5f5;   
     --text: #333;
     --border: #e0e0e0;
-
     --font-display: 'Fjalla One', sans-serif;
     --font-body: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
-    /* Transicoes com cubic-bezier para animacoes mais suaves */
-    --transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    --transition-smooth: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    --transition-slow: all 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    --shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-    --shadow-hover: 0 20px 60px rgba(0, 0, 0, 0.15);
+    --transition: all 0.4s ease;
 }
 
 /* Reset - zera margens/paddings e usa border-box em tudo */
@@ -29,7 +20,7 @@
     box-sizing: border-box;
 }
 
-/* Scroll suave ao clicar nos links ancora (#carros, #comparador, etc) */
+/* Scroll suave ao clicar nos links ancora */
 html {
     scroll-behavior: smooth;
 }
@@ -40,26 +31,23 @@ body {
     color: var(--text);
     background: var(--light);
     line-height: 1.6;
-    overflow-x: hidden; /* evita scroll horizontal indesejado */
+    overflow-x: hidden;
 }
 
 /* ========== NAVBAR ========== */
 
-/* Navbar fixa no topo - sempre visivel ao rolar a pagina */
+/* Navbar fixa no topo */
 .navbar {
     position: fixed;
     top: 0;
     width: 100%;
     background: linear-gradient(90deg, #080808 0%, #1a1a1a 100%);
-    backdrop-filter: blur(15px); /* efeito de desfoque atras da navbar */
     padding: 1rem 0;
-    z-index: 1000; /* fica acima de todo conteudo */
-    box-shadow: 0 8px 32px rgba(238, 184, 16, 0.1);
-    border-bottom: 3px solid #eeb810;
-    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 1000;
+    border-bottom: 3px solid var(--secondary);
 }
 
-/* Flexbox para alinhar logo e links com espaco entre eles */
+/* Flexbox para alinhar logo e links */
 .navbar-container {
     display: flex;
     justify-content: space-between;
@@ -69,31 +57,17 @@ body {
     padding: 0 2rem;
 }
 
-/* Logo dourado com sombra */
+/* Logo dourado */
 .logo {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
     font-size: 1.8rem;
     font-weight: bold;
-    color: #eeb810;
+    color: var(--secondary);
     font-family: var(--font-display);
     text-transform: uppercase;
     letter-spacing: 3px;
-    text-shadow: 0 2px 10px rgba(238, 184, 16, 0.4);
-    transition: var(--transition);
 }
 
-.logo:hover {
-    text-shadow: 0 4px 20px rgba(238, 184, 16, 0.25);
-    transform: scale(1.05);
-}
-
-.logo-text {
-    letter-spacing: 3px;
-}
-
-/* Links de navegacao - dispostos em linha com flexbox */
+/* Links de navegacao em linha */
 .nav-links {
     display: flex;
     list-style: none;
@@ -104,36 +78,34 @@ body {
     color: #ffffff;
     text-decoration: none;
     font-weight: 600;
-    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    position: relative; /* necessario para o pseudo-elemento ::after */
+    transition: var(--transition);
+    position: relative;
     text-transform: uppercase;
     font-size: 0.9rem;
     letter-spacing: 1px;
 }
 
-/* Linha dourada que aparece embaixo do link no hover (pseudo-elemento) */
+/* Linha dourada embaixo do link no hover (pseudo-elemento) */
 .nav-links a::after {
     content: '';
     position: absolute;
     bottom: -5px;
     left: 0;
-    width: 0; /* comeca invisivel */
+    width: 0;
     height: 3px;
-    background: #eeb810;
-    transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    box-shadow: 0 0 10px rgba(238, 184, 16, 0.15);
+    background: var(--secondary);
+    transition: width 0.4s ease;
 }
 
 .nav-links a:hover {
-    color: #eeb810;
+    color: var(--secondary);
 }
 
-/* No hover, a linha expande para 100% */
 .nav-links a:hover::after {
     width: 100%;
 }
 
-/* Botao hamburger - escondido no desktop, aparece no mobile */
+/* Botao hamburger - escondido no desktop */
 .menu-toggle {
     display: none;
     flex-direction: column;
@@ -142,13 +114,11 @@ body {
     cursor: pointer;
 }
 
-/* As 3 barrinhas do hamburger */
 .menu-toggle span {
     width: 25px;
     height: 3px;
     background: var(--secondary);
     margin: 5px 0;
-    transition: var(--transition);
     border-radius: 2px;
 }
 
@@ -157,54 +127,25 @@ body {
 /* Secao principal - ocupa a tela toda com imagem de fundo */
 .hero {
     margin-top: 0;
-    padding-top: 60px; /* compensa a navbar fixa */
-    min-height: 100vh; /* 100% da altura da tela */
+    padding-top: 60px;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    /* linear-gradient cria o overlay escuro por cima da imagem */
+    /* linear-gradient cria overlay escuro por cima da imagem */
     background: linear-gradient(rgba(8, 8, 8, 0.65), rgba(8, 8, 8, 0.75)), url('hero-bg.jpeg') center/cover no-repeat;
     color: var(--light);
     position: relative;
-    overflow: hidden;
     padding: 2rem;
 }
 
-/* Efeito de brilho dourado pulsante usando pseudo-elemento */
-.hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at 20% 50%, rgba(238, 184, 16, 0.1) 0%, transparent 50%);
-    pointer-events: none; /* nao interfere nos cliques */
-    animation: pulse 4s ease-in-out infinite;
-}
-
-/* Padrao SVG decorativo no fundo (cruzes douradas bem sutis) */
-.hero-backdrop {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image:
-        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23eeb810' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-    opacity: 0.3;
-    pointer-events: none;
-}
-
-/* Conteudo da hero centralizado */
 .hero-content {
     position: relative;
-    z-index: 2; /* fica acima dos efeitos decorativos */
+    z-index: 2;
     text-align: center;
-    animation: fadeInUp 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    animation: fadeInUp 1s ease;
 }
 
-/* Titulo principal */
 .hero-title {
     font-size: 3.5rem;
     font-family: var(--font-display);
@@ -213,19 +154,16 @@ body {
     letter-spacing: 2px;
     color: var(--secondary);
     text-shadow: 0 4px 20px rgba(238, 184, 16, 0.3);
-    animation: fadeInUp 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s both;
 }
 
-/* Subtitulo */
 .hero-subtitle {
     font-size: 1.3rem;
     color: rgba(245, 245, 245, 0.8);
     margin-bottom: 2rem;
     max-width: 600px;
-    animation: fadeInUp 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.4s both;
 }
 
-/* Botao CTA (Call to Action) - dourado, fica transparente no hover */
+/* Botao CTA - dourado, fica transparente no hover */
 .cta-button {
     display: inline-block;
     padding: 1rem 2.5rem;
@@ -236,17 +174,15 @@ body {
     font-weight: bold;
     font-size: 1rem;
     letter-spacing: 1px;
-    transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: var(--transition);
     border: 2px solid var(--secondary);
     cursor: pointer;
-    animation: fadeInUp 1.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .cta-button:hover {
     background: transparent;
     color: var(--secondary);
     transform: translateY(-4px);
-    box-shadow: 0 10px 25px rgba(238, 184, 16, 0.12);
 }
 
 /* ========== SECAO DE CARROS ========== */
@@ -261,22 +197,14 @@ body {
 .section-header {
     text-align: center;
     margin-bottom: 3rem;
-    animation: fadeInDown 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .section-header h2 {
     font-size: 2.5rem;
     font-family: var(--font-display);
-    color: #eeb810;
+    color: var(--secondary);
     margin-bottom: 0.5rem;
     letter-spacing: 1px;
-    transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.section-header h2:hover {
-    color: #f5d547;
-    text-shadow: 0 2px 10px rgba(238, 184, 16, 0.2);
-    transform: translateY(-3px);
 }
 
 .section-header p {
@@ -286,7 +214,6 @@ body {
 
 /* ========== FILTROS ========== */
 
-/* Flex com wrap para quebrar linha em telas menores */
 .filters {
     display: flex;
     justify-content: center;
@@ -302,25 +229,24 @@ body {
     color: #6b6b6b;
     cursor: pointer;
     font-weight: 600;
-    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: var(--transition);
     border-radius: 4px;
     text-transform: uppercase;
     font-size: 0.9rem;
     letter-spacing: 1px;
 }
 
-/* Estilo do filtro ativo e do hover */
+/* Estilo do filtro ativo e hover */
 .filter-btn:hover,
 .filter-btn.active {
     background: #6b6b6b;
     color: var(--secondary);
     border-color: #6b6b6b;
-    box-shadow: 0 6px 20px rgba(238, 184, 16, 0.1);
 }
 
 /* ========== GRID DE CARROS ========== */
 
-/* Grid de 2 colunas usando CSS Grid */
+/* Grid de 2 colunas */
 .cars-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr) !important;
@@ -336,16 +262,15 @@ body {
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-    transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: var(--transition);
     cursor: pointer;
-    animation: slideIn 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     border: 1px solid rgba(238, 184, 16, 0.1);
 }
 
-/* Efeito hover - card sobe e aumenta um pouco */
+/* Efeito hover - card sobe */
 .car-card:hover {
-    transform: translateY(-18px) scale(1.02);
-    box-shadow: 0 30px 70px rgba(238, 184, 16, 0.08);
+    transform: translateY(-8px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
 }
 
 /* Classe que o JS adiciona para esconder cards filtrados */
@@ -355,7 +280,6 @@ body {
 
 /* ========== IMAGEM DO CARRO ========== */
 
-/* Container da imagem com altura fixa */
 .car-image {
     width: 100%;
     height: 300px;
@@ -364,7 +288,6 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 1.8rem;
-    position: relative;
     overflow: hidden;
 }
 
@@ -374,29 +297,12 @@ body {
     height: 100%;
     object-fit: cover;
     object-position: center;
-    transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    image-rendering: auto;
+    transition: transform 0.4s ease;
 }
 
 /* Zoom suave na imagem no hover */
 .car-card:hover .car-image img {
-    transform: scale(1.08);
-}
-
-/* Efeito de brilho que passa pela imagem no hover */
-.car-image::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-    transition: left 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.car-card:hover .car-image::after {
-    left: 100%;
+    transform: scale(1.05);
 }
 
 /* ========== INFO DO CARRO ========== */
@@ -411,15 +317,9 @@ body {
     color: var(--primary);
     margin-bottom: 0.5rem;
     font-family: var(--font-display);
-    transition: var(--transition);
 }
 
-/* Nome fica dourado no hover do card */
-.car-card:hover .car-name {
-    color: var(--secondary);
-}
-
-/* Categoria do carro (sedan, supercar, suv) */
+/* Categoria do carro */
 .car-tipo {
     color: var(--secondary);
     font-size: 0.9rem;
@@ -441,28 +341,17 @@ body {
 .spec {
     border-left: 3px solid var(--secondary);
     padding-left: 0.5rem;
-    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.car-card:hover .spec {
-    border-left-width: 4px;
 }
 
 .spec-label {
     color: #999;
     font-size: 0.8rem;
     text-transform: uppercase;
-    transition: var(--transition);
 }
 
 .spec-value {
     color: var(--primary);
     font-weight: bold;
-    transition: var(--transition);
-}
-
-.car-card:hover .spec-value {
-    color: var(--secondary);
 }
 
 /* ========== BOTOES DO CARD ========== */
@@ -473,7 +362,6 @@ body {
     margin-top: 1rem;
 }
 
-/* flex: 1 faz os botoes ocuparem espaco igual */
 .btn-small {
     flex: 1;
     padding: 0.7rem;
@@ -481,7 +369,7 @@ body {
     border-radius: 4px;
     cursor: pointer;
     font-weight: 600;
-    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: var(--transition);
     text-transform: uppercase;
     font-size: 0.8rem;
     letter-spacing: 0.5px;
@@ -496,7 +384,6 @@ body {
 .btn-info:hover {
     background: #d9a30d;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(238, 184, 16, 0.12);
 }
 
 /* Botao "Favoritar" - cinza com borda */
@@ -506,19 +393,11 @@ body {
     border: 2px solid #6b6b6b;
 }
 
-/* Muda visual quando favoritado ou no hover */
 .btn-favorite:hover,
 .btn-favorite.favorited {
     background: #6b6b6b;
     color: var(--secondary);
     border-color: #6b6b6b;
-    box-shadow: 0 6px 20px rgba(238, 184, 16, 0.1);
-}
-
-/* Pseudo-elemento que adiciona texto antes do conteudo */
-.btn-favorite.favorited::before {
-    content: 'FAVORITO ';
-    font-size: 0.7rem;
 }
 
 /* ========== COMPARADOR ========== */
@@ -534,7 +413,6 @@ body {
     background: var(--light);
     padding: 2rem;
     border-radius: 8px;
-    animation: fadeIn 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 /* Dois selects lado a lado */
@@ -561,19 +439,14 @@ body {
     border: 2px solid var(--border);
     border-radius: 8px;
     font-size: 1rem;
-    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: var(--transition);
     cursor: pointer;
 }
 
-/* Focus com borda dourada e sombra */
 .selector select:focus {
     outline: none;
     border-color: var(--secondary);
     box-shadow: 0 0 0 4px rgba(238, 184, 16, 0.08);
-}
-
-.selector select:hover {
-    box-shadow: 0 4px 15px rgba(238, 184, 16, 0.05);
 }
 
 /* overflow-x: auto para tabela nao estourar em telas pequenas */
@@ -581,13 +454,12 @@ body {
     overflow-x: auto;
     background: white;
     border-radius: 8px;
-    animation: fadeIn 1s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* Tabela de comparacao */
 .tabela-comparacao {
     width: 100%;
-    border-collapse: collapse; /* junta as bordas das celulas */
+    border-collapse: collapse;
 }
 
 .tabela-comparacao th,
@@ -595,10 +467,9 @@ body {
     padding: 1rem;
     text-align: left;
     border-bottom: 1px solid var(--border);
-    transition: var(--transition);
 }
 
-/* Cabecalho da tabela - fundo preto com texto dourado */
+/* Cabecalho - fundo preto com texto dourado */
 .tabela-comparacao th {
     background: var(--primary);
     color: var(--secondary);
@@ -607,16 +478,11 @@ body {
     font-size: 0.9rem;
 }
 
-/* Hover na linha da tabela */
 .tabela-comparacao tr:hover {
     background: rgba(238, 184, 16, 0.08);
 }
 
-.tabela-comparacao tr:hover td {
-    color: var(--primary);
-}
-
-/* Primeira coluna (nome da spec) com destaque */
+/* Primeira coluna com destaque */
 .tabela-comparacao td:first-child {
     font-weight: 600;
     color: var(--primary);
@@ -631,7 +497,6 @@ body {
     margin: 0 auto;
 }
 
-/* Grid responsivo com auto-fit */
 .favoritos-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -641,11 +506,10 @@ body {
 
 /* Mensagem quando nao tem favoritos */
 .favoritos-empty {
-    grid-column: 1 / -1; /* ocupa todas as colunas do grid */
+    grid-column: 1 / -1;
     text-align: center;
     padding: 4rem 2rem;
     color: #999;
-    animation: fadeIn 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .favoritos-empty p {
@@ -662,14 +526,13 @@ body {
     border-radius: 8px;
     cursor: pointer;
     font-weight: 600;
-    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: var(--transition);
     margin-top: 2rem;
 }
 
 .limpar-favoritos:hover {
     background: #c0392b;
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(231, 76, 60, 0.15);
 }
 
 /* ========== FORMULARIO DE CONTATO ========== */
@@ -682,18 +545,16 @@ body {
 }
 
 .contato-section .section-header h2 {
-    color: #eeb810;
+    color: var(--secondary);
 }
 
 /* Form com borda dourada na esquerda */
 .contact-form {
     max-width: 500px;
     margin: 2rem auto;
-    background: transparent;
     padding: 1.5rem;
     border-radius: 12px;
-    animation: fadeIn 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    border-left: 4px solid #eeb810;
+    border-left: 4px solid var(--secondary);
 }
 
 /* Cada grupo de campo (label + input) em coluna */
@@ -707,7 +568,7 @@ body {
 .form-group label {
     margin-bottom: 0.5rem;
     font-weight: 600;
-    color: #eeb810;
+    color: var(--secondary);
     text-transform: uppercase;
     font-size: 0.9rem;
     letter-spacing: 0.5px;
@@ -718,31 +579,22 @@ body {
 .form-group textarea,
 .form-group select {
     padding: 0.8rem;
-    border: 2px solid #eeb810;
+    border: 2px solid var(--secondary);
     border-radius: 8px;
     font-family: var(--font-body);
     font-size: 1rem;
-    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: var(--transition);
     background: rgba(255, 255, 255, 0.92);
     color: #333;
 }
 
-/* Estilo do focus - borda clara e sombra dourada */
+/* Estilo do focus */
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group select:focus {
     outline: none;
     border-color: #f5d547;
     box-shadow: 0 0 0 4px rgba(238, 184, 16, 0.15);
-    transform: scale(1.01);
-    background: rgba(255, 255, 245, 0.98);
-}
-
-.form-group input:hover,
-.form-group textarea:hover,
-.form-group select:hover {
-    border-color: #eeb810;
-    box-shadow: 0 4px 12px rgba(238, 184, 16, 0.12);
 }
 
 /* Textarea so redimensiona verticalmente */
@@ -751,13 +603,12 @@ body {
     font-family: var(--font-body);
 }
 
-/* Mensagem de erro - escondida por padrao, aparece com a classe .error */
+/* Mensagem de erro - escondida por padrao */
 .error-msg {
     color: #e74c3c;
     font-size: 0.85rem;
     margin-top: 0.3rem;
     display: none;
-    animation: slideInDown 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* Quando o form-group tem classe error, borda fica vermelha */
@@ -777,32 +628,30 @@ body {
 .submit-btn {
     width: 100%;
     padding: 1rem;
-    background: #eeb810;
-    color: #080808;
+    background: var(--secondary);
+    color: var(--primary);
     border: none;
     border-radius: 8px;
     font-weight: bold;
     font-size: 1rem;
     cursor: pointer;
-    transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: var(--transition);
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-top: 0.5rem;
 }
 
 .submit-btn:hover {
-    color: #eeb810;
-    transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(238, 184, 16, 0.25);
+    background: #d9a30d;
+    transform: translateY(-2px);
 }
 
 .submit-btn:disabled {
     background: #ccc;
     cursor: not-allowed;
-    transform: none;
 }
 
-/* Mensagem verde de sucesso ao enviar o form */
+/* Mensagem verde de sucesso */
 .success-msg {
     background: #27ae60;
     color: white;
@@ -810,7 +659,6 @@ body {
     border-radius: 8px;
     text-align: center;
     margin-top: 1rem;
-    animation: slideInDown 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 /* ========== FOOTER ========== */
@@ -822,7 +670,7 @@ body {
     margin-top: 4rem;
 }
 
-/* Grid responsivo com auto-fit para colunas do footer */
+/* Grid responsivo com auto-fit */
 .footer-content {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -836,12 +684,6 @@ body {
     color: var(--secondary);
     margin-bottom: 1rem;
     font-family: var(--font-display);
-    transition: var(--transition);
-}
-
-.footer-section h3:hover,
-.footer-section h4:hover {
-    text-shadow: 0 0 10px rgba(238, 184, 16, 0.5);
 }
 
 .footer-section ul {
@@ -851,13 +693,11 @@ body {
 .footer-section a {
     color: rgba(245, 245, 245, 0.7);
     text-decoration: none;
-    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: var(--transition);
 }
 
-/* Link do footer fica dourado e desloca pra direita no hover */
 .footer-section a:hover {
     color: var(--secondary);
-    transform: translateX(5px);
 }
 
 .footer-bottom {
@@ -867,9 +707,8 @@ body {
     color: rgba(245, 245, 245, 0.6);
 }
 
-/* ========== ANIMACOES (KEYFRAMES) ========== */
+/* ========== ANIMACOES ========== */
 
-/* Entrada de baixo pra cima */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -881,7 +720,6 @@ body {
     }
 }
 
-/* Entrada de cima pra baixo */
 @keyframes fadeInDown {
     from {
         opacity: 0;
@@ -893,13 +731,11 @@ body {
     }
 }
 
-/* Fade simples */
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
 }
 
-/* Entrada da esquerda pra direita */
 @keyframes slideIn {
     from {
         opacity: 0;
@@ -911,7 +747,6 @@ body {
     }
 }
 
-/* Slide de cima - usado nas notificacoes */
 @keyframes slideInDown {
     from {
         opacity: 0;
@@ -923,17 +758,11 @@ body {
     }
 }
 
-/* Efeito pulsante da hero */
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.8; }
-}
-
-/* ========== MEDIA QUERIES - RESPONSIVIDADE ========== */
+/* ========== MEDIA QUERIES ========== */
 
 /* Tablet (ate 768px) */
 @media (max-width: 768px) {
-    /* Menu vira dropdown vertical no mobile */
+    /* Menu vira dropdown vertical */
     .nav-links {
         display: none;
         position: absolute;
@@ -946,10 +775,8 @@ body {
         gap: 0;
     }
 
-    /* Classe active mostra o menu */
     .nav-links.active {
         display: flex;
-        animation: slideInDown 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .nav-links a {
@@ -958,7 +785,6 @@ body {
         border-bottom: 1px solid rgba(238, 184, 16, 0.2);
     }
 
-    /* Mostra o botao hamburger */
     .menu-toggle {
         display: flex;
     }
@@ -1025,7 +851,6 @@ body {
         font-size: 1.5rem;
     }
 
-    /* Muda pra 1 coluna no celular */
     .cars-grid {
         grid-template-columns: 1fr !important;
         gap: 1.5rem !important;
@@ -1044,7 +869,6 @@ body {
         grid-template-columns: 1fr;
     }
 
-    /* Botoes empilhados no celular */
     .car-actions {
         flex-direction: column;
     }
@@ -1067,20 +891,7 @@ body {
     }
 }
 
-/* Adapta cores se o usuario usa tema escuro no sistema */
-@media (prefers-color-scheme: dark) {
-    body {
-        background: #1a1a1a;
-    }
-
-    .cars-grid,
-    .contact-form {
-        background: #2d2d2d;
-        color: var(--light);
-    }
-}
-
-/* Outline dourado visivel para navegacao por teclado (focus-visible) */
+/* Outline dourado para navegacao por teclado */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
@@ -1090,9 +901,9 @@ textarea:focus-visible {
     outline-offset: 2px;
 }
 
-/* ========== MODAL DE DETALHES ========== */
+/* ========== MODAL ========== */
 
-/* Overlay escuro que cobre a tela toda */
+/* Overlay escuro que cobre a tela */
 .modal {
     display: none;
     position: fixed;
@@ -1102,18 +913,17 @@ textarea:focus-visible {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
-    animation: fadeIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     backdrop-filter: blur(5px);
 }
 
-/* Quando ativo, centraliza o conteudo com flexbox */
+/* Quando ativo, centraliza com flexbox */
 .modal.active {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* Caixa do modal com borda dourada */
+/* Caixa do modal */
 .modal-content {
     background-color: white;
     padding: 2.5rem;
@@ -1121,39 +931,36 @@ textarea:focus-visible {
     width: 90%;
     max-width: 600px;
     max-height: 80vh;
-    overflow-y: auto; /* scroll interno se o conteudo for grande */
-    animation: slideInDown 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    box-shadow: 0 20px 60px rgba(238, 184, 16, 0.2);
-    border: 2px solid #eeb810;
+    overflow-y: auto;
+    border: 2px solid var(--secondary);
 }
 
-/* Header do modal */
 .modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
-    border-bottom: 2px solid #eeb810;
+    border-bottom: 2px solid var(--secondary);
     padding-bottom: 1rem;
 }
 
 .modal-header h2 {
     font-family: var(--font-display);
     font-size: 2rem;
-    color: #eeb810;
+    color: var(--secondary);
     margin: 0;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
-/* Botao X de fechar - gira 90 graus no hover */
+/* Botao X de fechar */
 .modal-close {
     background: none;
     border: none;
     font-size: 1.8rem;
     color: #6b6b6b;
     cursor: pointer;
-    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: var(--transition);
     padding: 0;
     width: 40px;
     height: 40px;
@@ -1163,8 +970,7 @@ textarea:focus-visible {
 }
 
 .modal-close:hover {
-    color: #eeb810;
-    transform: rotate(90deg) scale(1.1);
+    color: var(--secondary);
 }
 
 .modal-body {
@@ -1177,17 +983,17 @@ textarea:focus-visible {
     text-align: justify;
 }
 
-/* Box de specs com borda dourada */
+/* Box de specs do modal */
 .modal-specs {
     background: #f5f5f5;
     padding: 1.5rem;
     border-radius: 8px;
     margin: 2rem 0;
-    border-left: 4px solid #eeb810;
+    border-left: 4px solid var(--secondary);
 }
 
 .modal-specs h3 {
-    color: #eeb810;
+    color: var(--secondary);
     font-size: 1.3rem;
     margin-bottom: 1rem;
     text-transform: uppercase;
@@ -1195,7 +1001,7 @@ textarea:focus-visible {
     font-family: var(--font-display);
 }
 
-/* Grid 2 colunas para as specs do modal */
+/* Grid 2 colunas para as specs */
 .specs-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1206,11 +1012,11 @@ textarea:focus-visible {
     padding: 0.8rem;
     background: white;
     border-radius: 6px;
-    border-left: 3px solid #eeb810;
+    border-left: 3px solid var(--secondary);
 }
 
 .spec-item strong {
-    color: #eeb810;
+    color: var(--secondary);
     display: block;
     font-size: 0.9rem;
     text-transform: uppercase;
@@ -1230,7 +1036,7 @@ textarea:focus-visible {
     gap: 1rem;
     margin-top: 2rem;
     padding-top: 1.5rem;
-    border-top: 2px solid #eeb810;
+    border-top: 2px solid var(--secondary);
 }
 
 .modal-btn {
@@ -1242,19 +1048,18 @@ textarea:focus-visible {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
-    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: var(--transition);
     font-size: 0.9rem;
 }
 
 .modal-btn-primary {
-    background: #eeb810;
-    color: #080808;
+    background: var(--secondary);
+    color: var(--primary);
 }
 
 .modal-btn-primary:hover {
-    background: #f5d547;
+    background: #d9a30d;
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(238, 184, 16, 0.3);
 }
 
 .modal-btn-secondary {
@@ -1267,29 +1072,7 @@ textarea:focus-visible {
     transform: translateY(-2px);
 }
 
-/* Scrollbar personalizada no modal (so funciona no Chrome/Edge) */
-.modal-content::-webkit-scrollbar {
-    width: 8px;
-}
-
-.modal-content::-webkit-scrollbar-track {
-    background: #f0f0f0;
-    border-radius: 10px;
-}
-
-.modal-content::-webkit-scrollbar-thumb {
-    background: #eeb810;
-    border-radius: 10px;
-    transition: background 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.modal-content::-webkit-scrollbar-thumb:hover {
-    background: #f5d547;
-}
-
-/* ========== RESPONSIVIDADE DO MODAL ========== */
-
-/* Tablet */
+/* Responsividade do modal - tablet */
 @media (max-width: 768px) {
     .modal-content {
         width: 95%;
@@ -1301,7 +1084,6 @@ textarea:focus-visible {
         font-size: 1.5rem;
     }
 
-    /* Specs em 1 coluna */
     .specs-grid {
         grid-template-columns: 1fr;
     }
@@ -1315,7 +1097,7 @@ textarea:focus-visible {
     }
 }
 
-/* Celular */
+/* Responsividade do modal - celular */
 @media (max-width: 480px) {
     .modal-content {
         width: 98%;
@@ -1341,7 +1123,7 @@ textarea:focus-visible {
     }
 }
 
-/* ========== BOTAO WHATSAPP FLUTUANTE ========== */
+/* ========== BOTAO WHATSAPP ========== */
 
 /* Botao circular fixo no canto inferior direito */
 .whatsapp-float {
@@ -1350,17 +1132,16 @@ textarea:focus-visible {
     right: 2rem;
     width: 60px;
     height: 60px;
-    background: #25d366; /* verde oficial do WhatsApp */
-    border-radius: 50%;  /* deixa circular */
+    background: #25d366;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
     z-index: 999;
-    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: var(--transition);
 }
 
 .whatsapp-float:hover {
     transform: scale(1.1) translateY(-4px);
-    box-shadow: 0 12px 35px rgba(37, 211, 102, 0.5);
 }
