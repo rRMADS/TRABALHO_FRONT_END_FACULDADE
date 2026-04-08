@@ -27,21 +27,6 @@ Catalogo de carros de luxo, com foco na apresentacao visual dos veiculos, compar
 - **CSS**: Estilizacao completa com variaveis CSS, Grid Layout, Flexbox, Media Queries, pseudo-classes, pseudo-elementos e animacoes com keyframes.
 - **JavaScript**: Manipulacao do DOM, eventos, localStorage, IntersectionObserver, validacao de formularios — sem uso de frameworks.
 
-## Estrutura de Arquivos
-
-```
-LuxeDrive/
-├── index.html          # Pagina principal do site
-├── styles.css          # Estilos CSS do site
-├── script.js           # Logica JavaScript do site
-├── hero-bg.jpeg        # Imagem de fundo da hero section
-├── bmw-m3.jpg          # Imagem do BMW M3
-├── mclaren-w1.jpg      # Imagem da McLaren W1
-├── amg-g63.jpg         # Imagem do AMG G63
-├── ferrari-puro-sangue.jpg  # Imagem da Ferrari Puro Sangue
-└── README.md           # Documentacao do projeto
-```
-
 ## Responsividade
 
 O site se adapta a diferentes tamanhos de tela:
